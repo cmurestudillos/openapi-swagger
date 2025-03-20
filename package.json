@@ -1,0 +1,51 @@
+{
+  "name": "swagger-editor",
+  "version": "1.0.0",
+  "description": "Editor de OpenAPI/Swagger basado en Electron",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "package:mac": "electron-builder build --mac",
+    "package:win": "electron-builder build --windows",
+    "package:linux": "electron-builder build --linux"
+  },
+  "author": "Carlos Mur",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^28.3.3",
+    "electron-builder": "^25.1.8",
+    "eslint": "^9.22.0",
+    "eslint-config-prettier": "^10.1.1",
+    "eslint-plugin-jsdoc": "^50.6.8",
+    "eslint-plugin-prettier": "^5.2.3",
+    "prettier": "^3.5.3"
+  },
+  "dependencies": {
+    "@apidevtools/swagger-parser": "^10.1.1",
+    "ace-builds": "^1.39.0",
+    "cors-anywhere": "^0.4.4",
+    "express": "^4.21.2",
+    "http-proxy-middleware": "^3.0.3",
+    "js-yaml": "^4.1.0",
+    "swagger-parser": "^10.0.3",
+    "swagger-ui": "^5.20.1"
+  },
+  "build": {
+    "appId": "com.cmurestudillos.swagger-editor",
+    "productName": "Swagger Editor",
+    "directories": {
+      "output": "release/"
+    },
+    "mac": {
+      "category": "public.app-category.developer-tools",
+      "icon": "assets/icon.icns"
+    },
+    "win": {
+      "icon": "assets/icon.ico"
+    },
+    "linux": {
+      "icon": "assets/icon.png",
+      "category": "Development"
+    }
+  }
+}

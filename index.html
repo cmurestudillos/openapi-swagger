@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Swagger Editor</title>
+    <link rel="stylesheet" href="node_modules/swagger-ui/dist/swagger-ui.css" />
+    <link rel="stylesheet" href="style.css" />
+    <!-- Cargar el cargador de SwaggerParser primero -->
+    <script src="swagger-parser-loader.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>Editor OpenAPI/Swagger</h1>
+        <div class="toolbar">
+          <button id="btnNew">Nuevo</button>
+          <button id="btnValidate">Validar</button>
+          <button id="btnToJSON">A JSON</button>
+          <button id="btnToYAML">A YAML</button>
+          <button id="btnExport">Exportar</button>
+          <button id="btnFavorite" title="Añadir a favoritos">★</button>
+          <div class="file-info">
+            <span id="currentFile">Nuevo documento</span>
+          </div>
+        </div>
+      </div>
+      <div class="content">
+        <div class="split-pane">
+          <!-- Panel de edición -->
+          <div class="editor-container">
+            <div id="editor"></div>
+          </div>
+
+          <!-- Panel de previsualización -->
+          <div class="preview-container">
+            <div id="swagger-ui"></div>
+          </div>
+        </div>
+      </div>
+      <div class="status-bar">
+        <div id="status">Listo</div>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="node_modules/ace-builds/src-min/ace.js"></script>
+    <script src="node_modules/js-yaml/dist/js-yaml.min.js"></script>
+    <script src="node_modules/swagger-ui/dist/swagger-ui-bundle.js"></script>
+    <script src="node_modules/swagger-parser/dist/swagger-parser.min.js"></script>
+    <script src="renderer.js"></script>
+  </body>
+</html>

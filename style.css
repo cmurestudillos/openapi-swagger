@@ -1,0 +1,158 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
+}
+
+.header {
+  background-color: #f8f9fa;
+  padding: 10px 20px;
+  border-bottom: 1px solid #e9ecef;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header h1 {
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.toolbar {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.toolbar button {
+  padding: 5px 10px;
+  border: 1px solid #ced4da;
+  background-color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+
+.toolbar button:hover {
+  background-color: #e9ecef;
+}
+
+#btnFavorite {
+  font-size: 1.2rem;
+  color: #ccc;
+  line-height: 0.8;
+}
+
+#btnFavorite.active {
+  color: gold;
+}
+
+.file-info {
+  margin-left: 20px;
+  font-size: 0.9rem;
+  color: #6c757d;
+}
+
+.content {
+  flex: 1;
+  overflow: hidden;
+}
+
+.split-pane {
+  display: flex;
+  height: 100%;
+}
+
+.editor-container, .preview-container {
+  flex: 1;
+  height: 100%;
+  position: relative;
+}
+
+.editor-container {
+  overflow: hidden;
+}
+
+.preview-container {
+  overflow-y: auto;
+  overflow-x: auto;
+}
+
+.editor-container {
+  border-right: 1px solid #e9ecef;
+}
+
+#editor {
+  width: 100%;
+  height: 100%;
+  font-size: 14px;
+}
+
+.status-bar {
+  background-color: #f8f9fa;
+  padding: 5px 20px;
+  border-top: 1px solid #e9ecef;
+  font-size: 0.85rem;
+  color: #6c757d;
+}
+
+/* Estilos para Swagger UI */
+.swagger-ui .info {
+  margin: 20px 0;
+}
+
+.swagger-ui .wrapper {
+  padding: 0 20px;
+}
+
+#swagger-ui {
+  height: 100%;
+  width: 100%;
+  overflow: visible;
+}
+
+.swagger-ui .opblock-tag-section {
+  display: block;
+}
+
+.swagger-ui .opblock {
+  margin: 0 0 15px;
+}
+
+/* Asegurar que los endpoints sean visibles al expandirlos */
+.swagger-ui .opblock-body {
+  max-height: none;
+}
+
+/* Ajustes para el editor ACE */
+.ace_editor {
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+  line-height: 1.5;
+}
+
+/* Estilos para validación en tiempo real */
+.error-line {
+  position: absolute;
+  background: rgba(255, 0, 0, 0.1);
+  z-index: 20;
+}
+
+.ace_gutter-cell.ace_error {
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6QUM2OEZDQTg4RTU0MTFFMUEzM0VFRTM2RUY1M0RBMjYiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6QUM2OEZDQTk4RTU0MTFFMUEzM0VFRTM2RUY1M0RBMjYiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpBQzY4RkNBNjhFNTQxMUUxQTMzRUVFMzZFRjUzREEyNiIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpBQzY4RkNBNzhFNTQxMUUxQTMzRUVFMzZFRjUzREEyNiIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PkgXxbAAAAJbSURBVHjapFNNaBNBFH4zs5vdZLP5sQmNpT82QY209heh1ioWisaDRcSKF0WKJ0GQnrzrxasHsR6EnlrwD0TagxJabaVEpFYxLWlLSS822tr87m66ccfd2GKyVhA6MMybgfe97/vmPUQphd0sZRUvgAv8hV+wht+wD2/wt6+/Tu9pq1arODw8jM2Yav6+rr9Wp9OAG9BxuGgn7lOiqriEN8su0HpaU5R+5c/jfCFjm2dRMjT+TJtzPDTxSHUcYqT2kKdB0nRnReCuuQiCbdBsLIyigMLcnyAYWkM4h8HiAoqTfGRt3m5jnRee4JWxemYWgvbycvJ3Shq0RZ4kW8CtFKD4JqeAGfF+TUev1oB8ArqGCJoFJ0gqRkiPTDapVIZhzaGstiHP6/+9KGYsquRrg+XMm9aX0cD/micwDGvp2NlzbmPNAKGB8yTECQ4e9JyFYKRajREyRdsPX6RMr3VcN3o5jYGRH+Ti6ROSsUHaIuQW4pETnOhQkooECo9Ec4bqodKfQhUo0zM0IahNBvMwwjNvceG003FGfFmGPohZd24nW5dVSygFhbU2Qzt0QJaw3ExTlqXN+CDgW5MKrOIXM2vOPEOXXIJ9/TVVgVh4QF1yfbHGhjC/4L8BXJTAZZqaJ9WSClYX8Yzv7UPHlu4scPfe2RqPxQoPQJPQG1WTzVZnOHKhic9c9jQ9vH+pxcB4Lxa1Q0UADHklyMpmz3BDT/k8fLRrD9schT2yYvTN/AohCRWmHQgJIEBqJv4Dc8DhZtP83SQTrOZQYp8D/xGgA//5G5DZF2OAAAAAASUVORK5CYII=");
+  background-position: 2px center;
+}
