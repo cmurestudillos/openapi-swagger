@@ -2,8 +2,6 @@
 
 Una aplicación de escritorio para editar, visualizar y validar especificaciones OpenAPI/Swagger.
 
-![Swagger Editor Electron](https://via.placeholder.com/800x450?text=Swagger+Editor+Electron)
-
 ## Características
 
 - **Editor con resaltado de sintaxis** para YAML y JSON
@@ -21,15 +19,15 @@ Una aplicación de escritorio para editar, visualizar y validar especificaciones
 
 ### Requisitos previos
 
-- [Node.js](https://nodejs.org/) (v14 o superior)
-- [npm](https://www.npmjs.com/) (suele venir con Node.js)
+- [Node.js](https://nodejs.org/) 
+- [npm](https://www.npmjs.com/)
 
 ### Pasos de instalación
 
 1. Clona el repositorio:
    ```
-   git clone https://github.com/tuusuario/swagger-electron-editor.git
-   cd swagger-electron-editor
+   git clone https://github.com/cmurestudillos/openapi-swagger.git
+   cd openapi-swagger
    ```
 
 2. Instala las dependencias:
@@ -97,9 +95,3 @@ Las contribuciones son bienvenidas. Por favor, sigue estos pasos:
 ## Licencia
 
 Este proyecto está licenciado bajo la licencia MIT - ver el archivo [LICENSE](LICENSE) para más detalles.
-
-## Contacto
-
-Tu Nombre - [@tuusuario](https://twitter.com/tuusuario) - email@ejemplo.com
-
-URL del Proyecto: [https://github.com/tuusuario/swagger-electron-editor](https://github.com/tuusuario/swagger-electron-editor)

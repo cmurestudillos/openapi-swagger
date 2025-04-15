@@ -7,12 +7,13 @@
     "start": "electron .",
     "package:mac": "electron-builder build --mac",
     "package:win": "electron-builder build --windows",
-    "package:linux": "electron-builder build --linux"
+    "package:linux": "electron-builder build --linux",
+    "postinstall": "node postinstall.js"
   },
   "author": "Carlos Mur",
   "license": "MIT",
   "devDependencies": {
-    "electron": "^28.3.3",
+    "electron": "^29.0.0",
     "electron-builder": "^25.1.8",
     "eslint": "^9.22.0",
     "eslint-config-prettier": "^10.1.1",
@@ -47,5 +48,8 @@
       "icon": "assets/icon.png",
       "category": "Development"
     }
+  },
+  "overrides": {
+    "tree-sitter": "0.0.0-ignored"
   }
 }
