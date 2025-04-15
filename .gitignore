@@ -4,6 +4,5 @@ dist
 coverage
 release
 *.log
-.vscode
 .idea
 .DS_Store
