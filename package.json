@@ -13,8 +13,8 @@
   "author": "Carlos Mur",
   "license": "MIT",
   "devDependencies": {
-    "electron": "^29.0.0",
-    "electron-builder": "^25.1.8",
+    "electron": "^40.6.1",
+    "electron-builder": "^26.8.1",
     "eslint": "^9.22.0",
     "eslint-config-prettier": "^10.1.1",
     "eslint-plugin-jsdoc": "^50.6.8",
