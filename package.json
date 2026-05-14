@@ -3,8 +3,10 @@
   "version": "1.0.0",
   "description": "Editor de OpenAPI/Swagger basado en Electron",
   "main": "main.js",
+  "packageManager": "pnpm@11.1.1",
   "scripts": {
     "start": "electron .",
+    "lint": "eslint .",
     "package:mac": "electron-builder build --mac",
     "package:win": "electron-builder build --windows",
     "package:linux": "electron-builder build --linux",
@@ -22,14 +24,12 @@
     "prettier": "^3.5.3"
   },
   "dependencies": {
-    "@apidevtools/swagger-parser": "^10.1.1",
-    "ace-builds": "^1.39.0",
+    "@apidevtools/swagger-parser": "^12.1.0",
+    "ace-builds": "^1.44.0",
     "cors-anywhere": "^0.4.4",
-    "express": "^4.21.2",
-    "http-proxy-middleware": "^3.0.3",
-    "js-yaml": "^4.1.0",
-    "swagger-parser": "^10.0.3",
-    "swagger-ui": "^5.20.1"
+    "express": "^5.2.1",
+    "js-yaml": "^4.1.1",
+    "swagger-ui": "^5.32.6"
   },
   "build": {
     "appId": "com.cmurestudillos.swagger-editor",
@@ -51,5 +51,8 @@
   },
   "overrides": {
     "tree-sitter": "0.0.0-ignored"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": ["electron", "electron-builder"]
   }
 }
