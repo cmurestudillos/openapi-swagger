@@ -3,8 +3,10 @@
   "version": "1.0.0",
   "description": "Editor de OpenAPI/Swagger basado en Electron",
   "main": "main.js",
+  "packageManager": "pnpm@11.1.1",
   "scripts": {
     "start": "electron .",
+    "lint": "eslint .",
     "package:mac": "electron-builder build --mac",
     "package:win": "electron-builder build --windows",
     "package:linux": "electron-builder build --linux",
@@ -13,23 +15,21 @@
   "author": "Carlos Mur",
   "license": "MIT",
   "devDependencies": {
-    "electron": "^29.0.0",
-    "electron-builder": "^25.1.8",
-    "eslint": "^9.22.0",
-    "eslint-config-prettier": "^10.1.1",
-    "eslint-plugin-jsdoc": "^50.6.8",
-    "eslint-plugin-prettier": "^5.2.3",
-    "prettier": "^3.5.3"
+    "@eslint/js": "^10.0.1",
+    "electron": "^42.0.1",
+    "electron-builder": "^26.8.1",
+    "eslint": "^10.3.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.5",
+    "prettier": "^3.8.3"
   },
   "dependencies": {
-    "@apidevtools/swagger-parser": "^10.1.1",
-    "ace-builds": "^1.39.0",
+    "@apidevtools/swagger-parser": "^12.1.0",
+    "ace-builds": "^1.44.0",
     "cors-anywhere": "^0.4.4",
-    "express": "^4.21.2",
-    "http-proxy-middleware": "^3.0.3",
-    "js-yaml": "^4.1.0",
-    "swagger-parser": "^10.0.3",
-    "swagger-ui": "^5.20.1"
+    "express": "^5.2.1",
+    "js-yaml": "^4.1.1",
+    "swagger-ui": "^5.32.6"
   },
   "build": {
     "appId": "com.cmurestudillos.swagger-editor",
@@ -51,5 +51,8 @@
   },
   "overrides": {
     "tree-sitter": "0.0.0-ignored"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": ["electron", "electron-builder"]
   }
 }

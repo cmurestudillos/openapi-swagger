@@ -41,16 +41,10 @@ function performLiveValidation() {
 
 // Función para limpiar los marcadores de error
 function clearErrorMarkers() {
-  // Limpiar marcadores de error anteriores
   const session = editor.getSession();
-  if (session.$backMarkers) {
-    const markerIds = Object.keys(session.$backMarkers);
-    markerIds.forEach(id => {
-      if (session.$backMarkers[id].clazz === 'error-line') {
-        session.removeMarker(id);
-      }
-    });
-  }
+  errorMarkerIds.forEach(id => session.removeMarker(id));
+  errorMarkerIds = [];
+  session.setAnnotations([]);
 }
 
 // Función para establecer el estado visual del editor
@@ -106,20 +100,15 @@ function highlightError(error) {
 function highlightLine(lineNumber) {
   const session = editor.getSession();
   const Range = ace.require('ace/range').Range;
-
-  // Crear un marcador que resalte toda la línea
-  const marker = session.addMarker(new Range(lineNumber, 0, lineNumber, Infinity), 'error-line', 'fullLine', false);
-
-  // Establecer anotación de error
-  const annotations = session.getAnnotations();
-  annotations.push({
-    row: lineNumber,
-    type: 'error',
-    text: 'Error en la especificación OpenAPI',
-  });
-  session.setAnnotations(annotations);
+  const markerId = session.addMarker(new Range(lineNumber, 0, lineNumber, Infinity), 'error-line', 'fullLine', false);
+  errorMarkerIds.push(markerId);
+  session.setAnnotations([{ row: lineNumber, type: 'error', text: 'Error en la especificación OpenAPI' }]);
 } // Variables para el autoguardado
-let auto; // Elementos del DOM
+let auto;
+let currentFilePath = null;
+let errorMarkerIds = [];
+
+// Elementos del DOM
 const editorElement = document.getElementById('editor');
 const swaggerUIElement = document.getElementById('swagger-ui');
 const statusElement = document.getElementById('status');
@@ -386,14 +375,11 @@ function setupAutoSave() {
 
   if (autoSaveEnabled) {
     autoSaveInterval = setInterval(() => {
-      // Solo guardar si hay un archivo abierto o guardado previamente
-      if (currentFileElement.textContent !== 'Nuevo documento') {
-        const filePath = currentFileElement.textContent;
+      if (currentFilePath) {
         const content = editor.getValue();
-        window.electronAPI.saveFileContent(filePath, content);
-        setStatus(`Autoguardado: ${filePath}`, false, true);
+        window.electronAPI.saveFileContent(currentFilePath, content);
+        setStatus(`Autoguardado: ${currentFilePath}`, false, true);
       } else {
-        // Guardar en un archivo temporal si es un documento nuevo
         window.electronAPI.autoSaveTemp(editor.getValue());
       }
     }, autoSaveDelay);
@@ -433,6 +419,7 @@ editor.session.on('change', function () {
 function createNewDocument() {
   editor.setValue(defaultOpenAPI, -1);
   setEditorMode('yaml');
+  currentFilePath = null;
   currentFileElement.textContent = 'Nuevo documento';
   setStatus('Nuevo documento creado');
   updatePreview();
@@ -502,15 +489,13 @@ window.electronAPI.newFile(() => {
 window.electronAPI.onFileOpened(data => {
   editor.setValue(data.content, -1);
 
-  // Detectar y establecer el modo del editor
   const contentType = detectContentType(data.content);
   setEditorMode(contentType);
 
-  // Actualizar la información del archivo
+  currentFilePath = data.filePath;
   currentFileElement.textContent = data.filePath;
   setStatus(`Archivo abierto: ${data.filePath}`);
 
-  // Actualizar la previsualización
   updatePreview();
 });
 
@@ -520,6 +505,7 @@ window.electronAPI.saveFile(filePath => {
 });
 
 window.electronAPI.onFileSaved(filePath => {
+  currentFilePath = filePath;
   currentFileElement.textContent = filePath;
   setStatus(`Archivo guardado: ${filePath}`);
 });
