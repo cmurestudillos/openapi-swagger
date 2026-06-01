@@ -14,9 +14,6 @@ importers:
       ace-builds:
         specifier: ^1.44.0
         version: 1.44.0
-      cors-anywhere:
-        specifier: ^0.4.4
-        version: 0.4.4
       express:
         specifier: ^5.2.1
         version: 5.2.1
@@ -695,10 +692,6 @@ packages:
   core-util-is@1.0.2:
     resolution: {integrity: sha512-3lqz5YjWTYnW6dlDa5TLaTCcShfar1e40rmcJVwCBJC6mWlFuj0eCHIElmG1g5kyuJ/GD+8Wn4FFCcz4gJPfaQ==}
 
-  cors-anywhere@0.4.4:
-    resolution: {integrity: sha512-8OBFwnzMgR4mNrAeAyOLB2EruS2z7u02of2bOu7i9kKYlZG+niS7CTHLPgEXKWW2NAOJWRry9RRCaL9lJRjNqg==}
-    engines: {node: '>=0.10.0'}
-
   crc@3.8.0:
     resolution: {integrity: sha512-iX3mfgcTMIq3ZKLIsVFAbv7+Mc10kxabAGQb8HvjA1o3T1PIYprbakQ65d3I+2HGHt6nSKkM9PYjgoJO2KcFBQ==}
 
@@ -940,9 +933,6 @@ packages:
     resolution: {integrity: sha512-aIL5Fx7mawVa300al2BnEE4iNvo1qETxLrPI/o05L7z6go7fCw1J6EQmbK4FmJ2AS7kgVF/KEZWufBfdClMcPg==}
     engines: {node: '>= 0.6'}
 
-  eventemitter3@1.2.0:
-    resolution: {integrity: sha512-DOFqA1MF46fmZl2xtzXR3MPCRsXqgoFqdXcrCVYM3JNnfUeHTm/fh/v/iU7gBFpwkuBmoJPAm5GuhdDfSEJMJA==}
-
   exponential-backoff@3.1.3:
     resolution: {integrity: sha512-ZgEeZXj30q+I0EN+CbSSpIyPaJ5HVQD18Z1m+u1FXbAeT94mr1zw50q4q6jiiC447Nl/YTcIYSAftiGqetwXCA==}
 
@@ -1161,10 +1151,6 @@ packages:
   http-proxy-agent@7.0.2:
     resolution: {integrity: sha512-T1gkAiYYDWYx3V5Bmyu7HcfcvL7mUrTWiM6yOfa3PIphViJ/gFPbvidQ+veqSOHci/PxBcDabeUNCzpOODJZig==}
     engines: {node: '>= 14'}
-
-  http-proxy@1.11.1:
-    resolution: {integrity: sha512-qz7jZarkVG3G6GMq+4VRJPSN4NkIjL4VMTNhKGd8jc25BumeJjWWvnY3A7OkCGa8W1TTxbaK3dcE0ijFalITVA==}
-    engines: {node: '>=0.10.0'}
 
   http2-wrapper@1.0.3:
     resolution: {integrity: sha512-V+23sDMr12Wnz7iTcDeJr3O6AIxlnvT/bmaAAAP/Xda35C90p9599p0F1eHR/N1KILWSoWVAiOMFjBBXaXSMxg==}
@@ -1643,9 +1629,6 @@ packages:
     resolution: {integrity: sha512-llQsMLSUDUPT44jdrU/O37qlnifitDP+ZwrmmZcoSKyLKvtZxpyV0n2/bD/N4tBAAZ/gJEdZU7KMraoK1+XYAg==}
     engines: {node: '>= 0.10'}
 
-  proxy-from-env@0.0.1:
-    resolution: {integrity: sha512-B9Hnta3CATuMS0q6kt5hEezOPM+V3dgaRewkFtFoaRQYTVNsHqUvFXmndH06z3QO1ZdDnRELv5vfY6zAj/gG7A==}
-
   proxy-from-env@2.1.0:
     resolution: {integrity: sha512-cJ+oHTW1VAEa8cJslgmUZrc+sjRKgAKl3Zyse6+PV38hZe/V6Z14TbCuXcan9F9ghlz4QrFr2c92TNF82UkYHA==}
     engines: {node: '>=10'}
@@ -1780,9 +1763,6 @@ packages:
   require-from-string@2.0.2:
     resolution: {integrity: sha512-Xf0nWe6RseziFMu+Ap9biiUbmplq6S9/p+7w7YXP/JBHhrUDDUhwa+vANyubuqfZWTveU//DYVGsDG7RKL/vEw==}
     engines: {node: '>=0.10.0'}
-
-  requires-port@0.0.1:
-    resolution: {integrity: sha512-AzPDCliPoWDSvEVYRQmpzuPhGGEnPrQz9YiOEvn+UdB9ixBpw+4IOZWtwctmpzySLZTy7ynpn47V14H4yaowtA==}
 
   requires-port@1.0.0:
     resolution: {integrity: sha512-KigOCHcocU3XODJxsu8i/j8T9tzT4adHiecwORRQ0ZZFcp7ahwXuRU1m+yuO90C5ZUyGeGfocHDI14M3L3yDAQ==}
@@ -3265,11 +3245,6 @@ snapshots:
   core-util-is@1.0.2:
     optional: true
 
-  cors-anywhere@0.4.4:
-    dependencies:
-      http-proxy: 1.11.1
-      proxy-from-env: 0.0.1
-
   crc@3.8.0:
     dependencies:
       buffer: 5.7.1
@@ -3573,8 +3548,6 @@ snapshots:
 
   etag@1.8.1: {}
 
-  eventemitter3@1.2.0: {}
-
   exponential-backoff@3.1.3: {}
 
   express@5.2.1:
@@ -3858,11 +3831,6 @@ snapshots:
       debug: 4.4.3
     transitivePeerDependencies:
       - supports-color
-
-  http-proxy@1.11.1:
-    dependencies:
-      eventemitter3: 1.2.0
-      requires-port: 0.0.1
 
   http2-wrapper@1.0.3:
     dependencies:
@@ -4279,8 +4247,6 @@ snapshots:
       forwarded: 0.2.0
       ipaddr.js: 1.9.1
 
-  proxy-from-env@0.0.1: {}
-
   proxy-from-env@2.1.0: {}
 
   pump@3.0.4:
@@ -4405,8 +4371,6 @@ snapshots:
   require-directory@2.1.1: {}
 
   require-from-string@2.0.2: {}
-
-  requires-port@0.0.1: {}
 
   requires-port@1.0.0: {}
 
