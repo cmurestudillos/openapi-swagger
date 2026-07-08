@@ -10,6 +10,7 @@ overrides:
   dompurify: ^3.4.8
   form-data: ^4.0.6
   tar: ^7.5.16
+  undici: ^6.27.0
 
 importers:
 
@@ -2079,8 +2080,8 @@ packages:
   undici-types@7.21.0:
     resolution: {integrity: sha512-w9IMgQrz4O0YN1LtB7K5P63vhlIOvC7opSmouCJ+ZywlPAlO9gIkJ+otk6LvGpAs2wg4econaCz3TvQ9xPoyuQ==}
 
-  undici@6.25.0:
-    resolution: {integrity: sha512-ZgpWDC5gmNiuY9CnLVXEH8rl50xhRCuLNA97fAUnKi8RRuV4E6KG31pDTsLVUKnohJE0I3XDrTeEydAXRw47xg==}
+  undici@6.27.0:
+    resolution: {integrity: sha512-YmfV3YnEDzXRC5lZ2jWtWWHKGUm1zIt8AhesR1tens+HTNv+YZlN/dp6G727LOvMJ8xjP9Be7Y2Sdr96LDm+pg==}
     engines: {node: '>=18.17'}
 
   universalify@0.1.2:
@@ -4113,7 +4114,7 @@ snapshots:
       semver: 7.8.0
       tar: 7.5.16
       tinyglobby: 0.2.16
-      undici: 6.25.0
+      undici: 6.27.0
       which: 6.0.1
 
   nopt@9.0.0:
@@ -4777,7 +4778,7 @@ snapshots:
 
   undici-types@7.21.0: {}
 
-  undici@6.25.0: {}
+  undici@6.27.0: {}
 
   universalify@0.1.2: {}
 
