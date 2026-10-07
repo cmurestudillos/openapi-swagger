@@ -1,0 +1,27 @@
+version: 2
+updates:
+  # Dependencias npm/pnpm (Dependabot detecta pnpm-lock.yaml automáticamente)
+  - package-ecosystem: "npm"
+    directory: "/"
+    target-branch: "develop"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 10
+    groups:
+      # Parches de seguridad agrupados en un solo PR
+      security:
+        applies-to: security-updates
+        patterns: ["*"]
+      # Actualizaciones minor/patch rutinarias en un solo PR
+      minor-and-patch:
+        applies-to: version-updates
+        update-types: ["minor", "patch"]
+        patterns: ["*"]
+
+  # Mantener al día las acciones de GitHub usadas en los workflows
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    target-branch: "develop"
+    schedule:
+      interval: "monthly"
