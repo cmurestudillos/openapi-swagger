@@ -420,6 +420,7 @@ function createNewDocument() {
   setEditorMode('yaml');
   currentFilePath = null;
   currentFileElement.textContent = 'Nuevo documento';
+  window.electronAPI.notifyNewDocument();
   setStatus('Nuevo documento creado');
   updatePreview();
 }

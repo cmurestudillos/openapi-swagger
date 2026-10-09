@@ -12,6 +12,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   saveFile: callback => on('save-file', (_, filePath) => callback(filePath)),
   saveFileContent: (filePath, content) => ipcRenderer.send('save-file-content', { filePath, content }),
   onFileSaved: callback => on('file-saved', (_, filePath) => callback(filePath)),
+  notifyNewDocument: () => ipcRenderer.send('new-document'),
 
   // Funciones de OpenAPI
   validateOpenAPI: callback => on('validate-openapi', () => callback()),

@@ -400,6 +400,13 @@ ipcMain.on('save-file-content', (event, { filePath, content }) => {
   });
 });
 
+// El renderer avisa al crear un documento nuevo (desde el menú o desde la barra de herramientas)
+ipcMain.on('new-document', () => {
+  currentFilePath = null;
+  updateRecentFilesMenu();
+  mainWindow.webContents.send('favorite-status', false);
+});
+
 // Manejar el evento de mostrar errores en la validación
 ipcMain.on('validation-error', (event, errorMessage) => {
   dialog.showErrorBox('Error de validación', errorMessage);
