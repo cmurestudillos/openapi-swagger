@@ -30,10 +30,13 @@ body, html {
 .header h1 {
   font-size: 1.5rem;
   color: #333;
+  white-space: nowrap;
+  margin-right: 20px;
 }
 
 .toolbar {
   display: flex;
+  min-width: 0;
   gap: 10px;
   align-items: center;
 }
@@ -45,6 +48,7 @@ body, html {
   border-radius: 4px;
   cursor: pointer;
   font-size: 0.9rem;
+  white-space: nowrap;
   transition: all 0.2s;
 }
 
@@ -66,6 +70,10 @@ body, html {
   margin-left: 20px;
   font-size: 0.9rem;
   color: #6c757d;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .content {
@@ -109,6 +117,9 @@ body, html {
   border-top: 1px solid #e9ecef;
   font-size: 0.85rem;
   color: #6c757d;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* Estilos para Swagger UI */

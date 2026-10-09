@@ -272,7 +272,8 @@ function updatePreview() {
 
     setStatus('Previsualización actualizada');
   } catch (error) {
-    setStatus(`Error: ${error.message}`, true);
+    // js-yaml añade un fragmento del código en varias líneas: solo la primera
+    setStatus(`Error: ${error.message.split('\n')[0]}`, true);
   }
 }
 
@@ -424,12 +425,18 @@ editor.session.on('change', function () {
   }
 });
 
+// Mostrar el archivo actual en la cabecera: solo el nombre (la ruta completa en el tooltip)
+function showCurrentFile(filePath) {
+  currentFileElement.textContent = filePath ? filePath.split(/[\\/]/).pop() : 'Nuevo documento';
+  currentFileElement.title = filePath || '';
+}
+
 // Función para crear un nuevo documento
 function createNewDocument() {
   editor.setValue(defaultOpenAPI, -1);
   setEditorMode('yaml');
   currentFilePath = null;
-  currentFileElement.textContent = 'Nuevo documento';
+  showCurrentFile(null);
   window.electronAPI.notifyNewDocument();
   setStatus('Nuevo documento creado');
   updatePreview();
@@ -506,7 +513,7 @@ window.electronAPI.onFileOpened(data => {
   setEditorMode(contentType);
 
   currentFilePath = data.filePath;
-  currentFileElement.textContent = data.filePath;
+  showCurrentFile(data.filePath);
   setStatus(`Archivo abierto: ${data.filePath}`);
 
   updatePreview();
@@ -519,7 +526,7 @@ window.electronAPI.saveFile(filePath => {
 
 window.electronAPI.onFileSaved(filePath => {
   currentFilePath = filePath;
-  currentFileElement.textContent = filePath;
+  showCurrentFile(filePath);
   setStatus(`Archivo guardado: ${filePath}`);
 });
 
