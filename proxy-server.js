@@ -1,8 +1,11 @@
 const express = require('express');
 const http = require('http');
 const https = require('https');
-const url = require('url');
-const { networkInterfaces } = require('os');
+const crypto = require('crypto');
+
+// Token aleatorio por sesión: solo el renderer de la app lo conoce, así ninguna otra
+// página o programa del equipo puede usar el proxy
+const token = crypto.randomBytes(24).toString('hex');
 
 // Crear servidor Express
 const app = express();
@@ -30,6 +33,10 @@ app.use((req, res, next) => {
 // Ruta base para el proxy
 app.use('/proxy', (req, res) => {
   // Extraer la URL objetivo del parámetro de consulta 'url'
+  if (req.query.token !== token) {
+    return res.status(403).send('Token de proxy no válido');
+  }
+
   const targetUrl = req.query.url;
 
   if (!targetUrl) {
@@ -87,42 +94,21 @@ app.use('/proxy', (req, res) => {
 });
 
 // Manejo de errores global
-app.use((err, req, res, next) => {
+// Express identifica el manejador de errores por sus 4 parámetros
+app.use((err, req, res, _next) => {
   console.error('Error en el servidor proxy:', err);
   res.status(500).send('Error interno del servidor proxy');
 });
 
-// Obtener direcciones IP disponibles
-function getIpAddresses() {
-  const interfaces = networkInterfaces();
-  const addresses = [];
-
-  for (const name of Object.keys(interfaces)) {
-    for (const iface of interfaces[name]) {
-      // Omitir direcciones internas de loopback e IPv6
-      if (iface.family === 'IPv4' && !iface.internal) {
-        addresses.push(iface.address);
-      }
-    }
-  }
-
-  return addresses;
-}
+// Solo se escucha en loopback: el proxy no es accesible desde otros equipos de la red
+const HOST = '127.0.0.1';
 
 // Función para iniciar el servidor
 function startProxyServer(port = 9000) {
   return new Promise((resolve, reject) => {
-    const server = app.listen(port, () => {
-      const ipAddresses = getIpAddresses();
-      console.log(`Servidor proxy CORS iniciado en puerto ${port}`);
-      console.log(`Accesible localmente en: http://localhost:${port}`);
-
-      // Mostrar todas las direcciones IP disponibles
-      ipAddresses.forEach(ip => {
-        console.log(`Accesible en la red en: http://${ip}:${port}`);
-      });
-
-      resolve({ server, port, addresses: ['localhost', ...ipAddresses] });
+    const server = app.listen(port, HOST, () => {
+      console.log(`Servidor proxy CORS iniciado en http://${HOST}:${port}`);
+      resolve({ server, port, token, addresses: [HOST] });
     });
 
     server.on('error', error => {

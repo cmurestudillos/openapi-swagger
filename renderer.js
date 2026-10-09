@@ -54,15 +54,22 @@ function setEditorValidState(isValid, error = null) {
     statusElement.textContent = 'Validación en tiempo real: ✓ Válido';
     statusElement.style.color = 'green';
   } else {
-    // Si no es válido, mostrar el error
-    statusElement.textContent = `Validación en tiempo real: ✗ Error - ${error.message}`;
+    // Si no es válido, mostrar el error (js-yaml añade un fragmento del código en varias líneas: solo la primera)
+    const firstLine = error.message.split('\n')[0];
+    statusElement.textContent = `Validación en tiempo real: ✗ Error - ${firstLine}`;
     statusElement.style.color = 'red';
   }
 }
 
 // Función para resaltar errores de sintaxis
 function highlightSyntaxError(error) {
-  // Intentar extraer información de línea y columna del mensaje de error
+  // js-yaml indica la posición en error.mark (línea 0-indexed, igual que ACE)
+  if (error.mark && typeof error.mark.line === 'number') {
+    highlightLine(error.mark.line);
+    return;
+  }
+
+  // JSON.parse: intentar extraer información de línea y columna del mensaje de error
   const lineMatch = error.message.match(/line (\d+)/i);
   if (lineMatch && lineMatch[1]) {
     const lineNumber = parseInt(lineMatch[1]) - 1; // Las líneas en ACE son 0-indexed
@@ -79,7 +86,6 @@ function highlightError(error) {
     try {
       // Como aproximación, podemos buscar la cadena en el documento
       const content = editor.getValue();
-      const pathStr = error.path.join('.');
       const searchStr = error.path[error.path.length - 1];
 
       // Buscar líneas que contengan la cadena
@@ -103,14 +109,14 @@ function highlightLine(lineNumber) {
   const markerId = session.addMarker(new Range(lineNumber, 0, lineNumber, Infinity), 'error-line', 'fullLine', false);
   errorMarkerIds.push(markerId);
   session.setAnnotations([{ row: lineNumber, type: 'error', text: 'Error en la especificación OpenAPI' }]);
-} // Variables para el autoguardado
-let auto;
+}
+
+// Estado del documento
 let currentFilePath = null;
 let errorMarkerIds = [];
 
 // Elementos del DOM
 const editorElement = document.getElementById('editor');
-const swaggerUIElement = document.getElementById('swagger-ui');
 const statusElement = document.getElementById('status');
 const currentFileElement = document.getElementById('currentFile');
 const btnNew = document.getElementById('btnNew');
@@ -174,7 +180,9 @@ let liveValidationDelay = 2000; // 2 segundos
 
 // Variable para almacenar el puerto del proxy
 let proxyPort = 9000;
-let proxyAddresses = ['localhost'];
+let proxyAddresses = ['127.0.0.1'];
+// Token que exige el proxy (lo envía main en proxy-info)
+let proxyToken = '';
 
 // Escuchar al evento del puerto del proxy
 window.electronAPI.onProxyPort(port => {
@@ -187,7 +195,8 @@ window.electronAPI.onProxyPort(port => {
 // Escuchar al evento con información completa del proxy
 window.electronAPI.onProxyInfo(info => {
   proxyPort = info.port;
-  proxyAddresses = info.addresses || ['localhost'];
+  proxyAddresses = info.addresses || ['127.0.0.1'];
+  proxyToken = info.token || '';
   console.log(`Servidor proxy disponible en puerto ${proxyPort}`);
   console.log(`Direcciones disponibles: ${proxyAddresses.join(', ')}`);
   // Actualizar la previsualización con el nuevo puerto
@@ -198,7 +207,7 @@ window.electronAPI.onProxyInfo(info => {
 function routeThroughProxy(url) {
   // Usar la primera dirección disponible (generalmente localhost)
   const proxyAddress = proxyAddresses[0];
-  return `http://${proxyAddress}:${proxyPort}/proxy?url=${encodeURIComponent(url)}`;
+  return `http://${proxyAddress}:${proxyPort}/proxy?token=${proxyToken}&url=${encodeURIComponent(url)}`;
 }
 
 // Inicializar Swagger UI
@@ -263,7 +272,8 @@ function updatePreview() {
 
     setStatus('Previsualización actualizada');
   } catch (error) {
-    setStatus(`Error: ${error.message}`, true);
+    // js-yaml añade un fragmento del código en varias líneas: solo la primera
+    setStatus(`Error: ${error.message.split('\n')[0]}`, true);
   }
 }
 
@@ -415,12 +425,19 @@ editor.session.on('change', function () {
   }
 });
 
+// Mostrar el archivo actual en la cabecera: solo el nombre (la ruta completa en el tooltip)
+function showCurrentFile(filePath) {
+  currentFileElement.textContent = filePath ? filePath.split(/[\\/]/).pop() : 'Nuevo documento';
+  currentFileElement.title = filePath || '';
+}
+
 // Función para crear un nuevo documento
 function createNewDocument() {
   editor.setValue(defaultOpenAPI, -1);
   setEditorMode('yaml');
   currentFilePath = null;
-  currentFileElement.textContent = 'Nuevo documento';
+  showCurrentFile(null);
+  window.electronAPI.notifyNewDocument();
   setStatus('Nuevo documento creado');
   updatePreview();
 }
@@ -431,11 +448,11 @@ function exportSwagger() {
     const content = editor.getValue();
     const contentType = detectContentType(content);
 
-    let spec;
+    // Comprobar que el contenido se puede parsear antes de abrir el diálogo
     if (contentType === 'yaml') {
-      spec = jsyaml.load(content);
+      jsyaml.load(content);
     } else {
-      spec = JSON.parse(content);
+      JSON.parse(content);
     }
 
     // Crear opciones para el diálogo de guardado
@@ -478,6 +495,9 @@ window.electronAPI.onTempSaveFound(data => {
       updatePreview();
       setStatus('Autoguardado recuperado');
     }
+
+    // Recuperado o no, no volver a preguntar en el siguiente arranque
+    window.electronAPI.discardTempSave();
   }
 });
 
@@ -493,7 +513,7 @@ window.electronAPI.onFileOpened(data => {
   setEditorMode(contentType);
 
   currentFilePath = data.filePath;
-  currentFileElement.textContent = data.filePath;
+  showCurrentFile(data.filePath);
   setStatus(`Archivo abierto: ${data.filePath}`);
 
   updatePreview();
@@ -506,7 +526,7 @@ window.electronAPI.saveFile(filePath => {
 
 window.electronAPI.onFileSaved(filePath => {
   currentFilePath = filePath;
-  currentFileElement.textContent = filePath;
+  showCurrentFile(filePath);
   setStatus(`Archivo guardado: ${filePath}`);
 });
 
@@ -538,6 +558,8 @@ window.electronAPI.onExportPath(filePath => {
 
     // Generar el contenido según el tipo de archivo
     if (fileExt === 'html') {
+      // Escapar '<' para que un '</script>' dentro del spec no cierre el script del HTML
+      const specForScript = JSON.stringify(spec).replace(/</g, '\\u003c');
       // Crear HTML con Swagger UI embebido
       exportContent = `
 <!DOCTYPE html>
@@ -558,7 +580,7 @@ window.electronAPI.onExportPath(filePath => {
   <script>
     window.onload = function() {
       const ui = SwaggerUIBundle({
-        spec: ${JSON.stringify(spec)},
+        spec: ${specForScript},
         dom_id: '#swagger-ui',
         deepLinking: true,
         presets: [
@@ -577,8 +599,8 @@ window.electronAPI.onExportPath(filePath => {
       exportContent = jsyaml.dump(spec);
     }
 
-    // Guardar el contenido en el archivo
-    window.electronAPI.saveFileContent(filePath, exportContent);
+    // Guardar el contenido en el archivo (sin cambiar el documento actual)
+    window.electronAPI.exportFileContent(filePath, exportContent);
     setStatus(`Exportado a: ${filePath}`);
   } catch (error) {
     setStatus(`Error al exportar: ${error.message}`, true);

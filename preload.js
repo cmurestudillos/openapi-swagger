@@ -12,6 +12,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   saveFile: callback => on('save-file', (_, filePath) => callback(filePath)),
   saveFileContent: (filePath, content) => ipcRenderer.send('save-file-content', { filePath, content }),
   onFileSaved: callback => on('file-saved', (_, filePath) => callback(filePath)),
+  notifyNewDocument: () => ipcRenderer.send('new-document'),
 
   // Funciones de OpenAPI
   validateOpenAPI: callback => on('validate-openapi', () => callback()),
@@ -24,6 +25,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   // Función para exportar Swagger
   exportSwagger: options => ipcRenderer.send('export-swagger', options),
   onExportPath: callback => on('export-path', (_, filePath) => callback(filePath)),
+  exportFileContent: (filePath, content) => ipcRenderer.send('export-file-content', { filePath, content }),
 
   // Proxy CORS
   onProxyPort: callback => on('proxy-port', (_, port) => callback(port)),
@@ -32,6 +34,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   // Autoguardado
   autoSaveTemp: content => ipcRenderer.send('auto-save-temp', content),
   onTempSaveFound: callback => on('temp-save-found', (_, data) => callback(data)),
+  discardTempSave: () => ipcRenderer.send('discard-temp-save'),
 
   // Favoritos
   onFavoriteStatus: callback => on('favorite-status', (_, status) => callback(status)),

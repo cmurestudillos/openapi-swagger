@@ -1,0 +1,76 @@
+name: Release
+
+# Al hacer push de un tag vX.Y.Z compila los instaladores de Windows, macOS y Linux
+# y los sube a un borrador de release en GitHub. La release se publica a mano.
+on:
+  push:
+    tags: ['v*.*.*']
+
+permissions:
+  contents: write
+
+jobs:
+  draft:
+    name: Crear borrador de release
+    runs-on: ubuntu-latest
+    steps:
+      # Un único job crea el borrador para que los tres builds en paralelo no creen duplicados
+      - name: Crear borrador
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if ! gh release view "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" > /dev/null 2>&1; then
+            gh release create "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" --draft \
+              --title "OpenAPI Swagger Editor: $GITHUB_REF_NAME" --generate-notes
+          fi
+
+  build:
+    name: Build (${{ matrix.name }})
+    needs: draft
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: Windows
+            os: windows-latest
+            target: --win
+          - name: macOS
+            os: macos-latest
+            target: --mac
+          - name: Linux
+            os: ubuntu-latest
+            target: --linux
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      # Sin "version": se toma de "packageManager" en package.json (indicar ambos hace fallar la acción)
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Comprobar que el tag coincide con package.json
+        shell: bash
+        run: |
+          VERSION="v$(node -p "require('./package.json').version")"
+          if [ "$VERSION" != "$GITHUB_REF_NAME" ]; then
+            echo "El tag $GITHUB_REF_NAME no coincide con la versión de package.json ($VERSION)"
+            exit 1
+          fi
+
+      - name: Build y subida al borrador
+        run: pnpm exec electron-builder ${{ matrix.target }} --publish always
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Sin certificados: instaladores sin firmar (ver notas de instalación en la web)
+          CSC_IDENTITY_AUTO_DISCOVERY: 'false'
