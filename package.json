@@ -37,16 +37,36 @@
     "directories": {
       "output": "release/"
     },
+    "files": [
+      "**/*",
+      "!docs{,/**/*}"
+    ],
+    "publish": {
+      "provider": "github",
+      "owner": "cmurestudillos",
+      "repo": "openapi-swagger",
+      "releaseType": "draft"
+    },
     "mac": {
       "category": "public.app-category.developer-tools",
-      "icon": "assets/icon.icns"
+      "icon": "assets/icon.icns",
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "arm64"
+          ]
+        }
+      ]
     },
     "win": {
-      "icon": "assets/icon.ico"
+      "icon": "assets/icon.ico",
+      "target": "nsis"
     },
     "linux": {
       "icon": "assets/icon.png",
-      "category": "Development"
+      "category": "Development",
+      "target": "AppImage"
     }
   },
   "overrides": {
