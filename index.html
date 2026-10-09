@@ -3,6 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Peticiones solo al proxy local (127.0.0.1); imágenes externas permitidas para las descripciones del spec -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https: http:; font-src 'self' data:; connect-src 'self' http://127.0.0.1:*; worker-src 'self' blob:" />
     <title>Swagger Editor</title>
     <link rel="stylesheet" href="node_modules/swagger-ui/dist/swagger-ui.css" />
     <link rel="stylesheet" href="style.css" />
