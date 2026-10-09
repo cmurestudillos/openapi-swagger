@@ -538,6 +538,8 @@ window.electronAPI.onExportPath(filePath => {
 
     // Generar el contenido según el tipo de archivo
     if (fileExt === 'html') {
+      // Escapar '<' para que un '</script>' dentro del spec no cierre el script del HTML
+      const specForScript = JSON.stringify(spec).replace(/</g, '\\u003c');
       // Crear HTML con Swagger UI embebido
       exportContent = `
 <!DOCTYPE html>
@@ -558,7 +560,7 @@ window.electronAPI.onExportPath(filePath => {
   <script>
     window.onload = function() {
       const ui = SwaggerUIBundle({
-        spec: ${JSON.stringify(spec)},
+        spec: ${specForScript},
         dom_id: '#swagger-ui',
         deepLinking: true,
         presets: [
@@ -577,8 +579,8 @@ window.electronAPI.onExportPath(filePath => {
       exportContent = jsyaml.dump(spec);
     }
 
-    // Guardar el contenido en el archivo
-    window.electronAPI.saveFileContent(filePath, exportContent);
+    // Guardar el contenido en el archivo (sin cambiar el documento actual)
+    window.electronAPI.exportFileContent(filePath, exportContent);
     setStatus(`Exportado a: ${filePath}`);
   } catch (error) {
     setStatus(`Error al exportar: ${error.message}`, true);

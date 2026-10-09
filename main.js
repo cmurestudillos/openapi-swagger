@@ -426,6 +426,15 @@ ipcMain.on('export-swagger', (event, options) => {
     });
 });
 
+// Escribir un archivo exportado: no cambia el documento actual ni el historial de recientes
+ipcMain.on('export-file-content', (event, { filePath, content }) => {
+  fs.writeFile(filePath, content, err => {
+    if (err) {
+      dialog.showErrorBox('Error al exportar', err.message);
+    }
+  });
+});
+
 // Manejar el autoguardado temporal
 ipcMain.on('auto-save-temp', (event, content) => {
   try {

@@ -25,6 +25,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   // Función para exportar Swagger
   exportSwagger: options => ipcRenderer.send('export-swagger', options),
   onExportPath: callback => on('export-path', (_, filePath) => callback(filePath)),
+  exportFileContent: (filePath, content) => ipcRenderer.send('export-file-content', { filePath, content }),
 
   // Proxy CORS
   onProxyPort: callback => on('proxy-port', (_, port) => callback(port)),
