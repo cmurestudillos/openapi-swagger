@@ -1,0 +1,577 @@
+<!doctype html>
+<html lang="es" data-theme="auto">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>OpenAPI Swagger Editor — Edita, valida y prueba especificaciones OpenAPI</title>
+    <meta
+      name="description"
+      content="Editor de escritorio para especificaciones OpenAPI/Swagger en YAML y JSON con vista previa de Swagger UI, validación en tiempo real y pruebas de endpoints sin problemas de CORS. Windows, macOS y Linux." />
+    <meta name="color-scheme" content="light dark" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src https://api.github.com" />
+    <link rel="icon" href="assets/icons/icon.png" />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="OpenAPI Swagger Editor — Edita, valida y prueba especificaciones OpenAPI" />
+    <meta
+      property="og:description"
+      content="YAML o JSON a la izquierda, Swagger UI a la derecha: edita tu especificación, ve los errores al momento y prueba los endpoints desde la propia app. Gratis y de código abierto." />
+    <meta property="og:image" content="assets/screenshots/01-editor.png" />
+    <meta property="og:url" content="https://cmurestudillos.github.io/openapi-swagger/" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Saltar al contenido</a>
+
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="#/">
+          <img src="assets/icons/icon.png" alt="" width="32" height="32" />
+          <span>OpenAPI Swagger Editor</span>
+        </a>
+
+        <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="siteNav" aria-label="Abrir menú">
+          <span></span><span></span><span></span>
+        </button>
+
+        <nav class="site-nav" id="siteNav" aria-label="Navegación principal">
+          <a href="#/" data-route-link="/">Inicio</a>
+          <a href="#/caracteristicas" data-route-link="/caracteristicas">Características</a>
+          <a href="#/capturas" data-route-link="/capturas">Capturas</a>
+          <a href="#/descargas" data-route-link="/descargas">Descargas</a>
+          <a href="#/documentacion" data-route-link="/documentacion">Documentación</a>
+          <a class="nav-cta" href="https://github.com/cmurestudillos/openapi-swagger" rel="noopener">GitHub</a>
+          <button class="theme-toggle" id="themeToggle" aria-label="Cambiar tema" title="Cambiar tema">
+            <span aria-hidden="true">🌗</span>
+          </button>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <!-- ══════════════════ INICIO ══════════════════ -->
+      <section class="view" data-route="/">
+        <div class="hero">
+          <div class="container hero-inner">
+            <div class="hero-copy">
+              <p class="eyebrow">
+                <span class="dot"></span> Código abierto · MIT ·
+                <span id="heroVersion">v1.0.0</span>
+              </p>
+              <h1>Escribe tu API y mírala tomar forma</h1>
+              <p class="lead">
+                Edita especificaciones OpenAPI en YAML o JSON con la documentación de Swagger&nbsp;UI actualizándose a
+                tu lado, detecta los errores mientras escribes y prueba los endpoints sin pelearte con CORS.
+              </p>
+              <div class="hero-actions">
+                <a class="btn btn-primary btn-lg" id="heroDownload" href="#/descargas"> ⬇ Descargar gratis </a>
+                <a class="btn btn-ghost btn-lg" href="#/capturas">Ver capturas</a>
+              </div>
+              <p class="hero-meta" id="heroMeta">Windows · macOS · Linux — tus archivos se quedan en tu equipo</p>
+            </div>
+
+            <figure class="hero-shot">
+              <img
+                src="assets/screenshots/01-editor.png"
+                alt="Ventana de OpenAPI Swagger Editor con el YAML de la especificación a la izquierda y la vista previa de Swagger UI a la derecha"
+                width="1280"
+                height="800"
+                loading="eager" />
+            </figure>
+          </div>
+        </div>
+
+        <div class="container">
+          <ul class="stat-row">
+            <li><strong>2</strong><span>formatos: YAML y JSON</span></li>
+            <li><strong>3</strong><span>formatos de exportación</span></li>
+            <li><strong>10&nbsp;min</strong><span>entre autoguardados</span></li>
+            <li><strong>MIT</strong><span>licencia libre</span></li>
+          </ul>
+
+          <h2 class="section-title">Cómo funciona</h2>
+          <ol class="steps">
+            <li>
+              <span class="step-num">1</span>
+              <h3>Abre o empieza</h3>
+              <p>
+                Abre un <code>.yaml</code>, <code>.yml</code> o <code>.json</code>, o parte de la plantilla OpenAPI 3.0
+                que trae el botón <strong>Nuevo</strong>.
+              </p>
+            </li>
+            <li>
+              <span class="step-num">2</span>
+              <h3>Edita y comprueba</h3>
+              <p>
+                La vista previa de Swagger UI se actualiza al dejar de escribir y los errores de sintaxis se marcan en
+                la línea correspondiente.
+              </p>
+            </li>
+            <li>
+              <span class="step-num">3</span>
+              <h3>Prueba y comparte</h3>
+              <p>
+                Lanza peticiones con <em>Try it out</em> y exporta la especificación a YAML, JSON o una página HTML con
+                la documentación.
+              </p>
+            </li>
+          </ol>
+
+          <div class="cta-band">
+            <div>
+              <h2>¿Listo para documentar tu API?</h2>
+              <p>Instaladores para Windows, macOS y Linux. Sin cuentas ni registro: todo se edita en local.</p>
+            </div>
+            <a class="btn btn-primary btn-lg" href="#/descargas">Ir a descargas</a>
+          </div>
+
+          <p class="muted small disclaimer">
+            Proyecto personal e independiente: no está afiliado a SmartBear ni es el
+            <a href="https://editor.swagger.io/" rel="noopener">Swagger Editor oficial</a>. «Swagger» es una marca de
+            SmartBear Software.
+          </p>
+        </div>
+      </section>
+
+      <!-- ══════════════════ CARACTERÍSTICAS ══════════════════ -->
+      <section class="view" data-route="/caracteristicas">
+        <div class="container">
+          <h1 class="page-title">Características</h1>
+          <p class="page-lead">
+            Todo lo necesario para escribir una especificación OpenAPI en una sola ventana: editor, documentación y
+            cliente para probar los endpoints.
+          </p>
+
+          <div class="card-grid">
+            <article class="card">
+              <span class="card-icon">✍️</span>
+              <h3>Editor de código</h3>
+              <p>
+                Editor ACE con resaltado de YAML y JSON, números de línea, plegado de bloques y autocompletado con las
+                palabras del documento.
+              </p>
+            </article>
+            <article class="card">
+              <span class="card-icon">👁️</span>
+              <h3>Vista previa en vivo</h3>
+              <p>
+                Swagger&nbsp;UI muestra la documentación medio segundo después de dejar de escribir. Admite OpenAPI 3.0,
+                3.1 y Swagger 2.0.
+              </p>
+            </article>
+            <article class="card">
+              <span class="card-icon">✅</span>
+              <h3>Validación al escribir</h3>
+              <p>
+                Los errores de sintaxis YAML/JSON se resaltan en su línea y la barra de estado indica si el documento es
+                válido.
+              </p>
+            </article>
+            <article class="card">
+              <span class="card-icon">🧪</span>
+              <h3>Prueba los endpoints</h3>
+              <p>
+                <em>Try it out</em> envía las peticiones a través de un proxy local, así que las APIs sin cabeceras CORS
+                también responden.
+              </p>
+            </article>
+            <article class="card">
+              <span class="card-icon">🔁</span>
+              <h3>YAML ↔ JSON</h3>
+              <p>Convierte el documento de un formato a otro con un clic, sin perder la estructura.</p>
+            </article>
+            <article class="card">
+              <span class="card-icon">📤</span>
+              <h3>Exportación</h3>
+              <p>
+                Guarda la especificación como YAML o JSON, o genera una página HTML con la documentación de Swagger UI.
+              </p>
+            </article>
+            <article class="card">
+              <span class="card-icon">⭐</span>
+              <h3>Favoritos y recientes</h3>
+              <p>Marca tus APIs con la estrella y vuelve a los últimos 10 archivos desde el menú <em>Archivo</em>.</p>
+            </article>
+            <article class="card">
+              <span class="card-icon">💾</span>
+              <h3>Autoguardado</h3>
+              <p>
+                Cada 10 minutos guarda el archivo abierto; si el documento aún no tiene nombre, ofrece recuperarlo en el
+                siguiente arranque.
+              </p>
+            </article>
+          </div>
+
+          <h2 class="section-title">Atajos de teclado</h2>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Acción</th>
+                  <th>Windows / Linux</th>
+                  <th>macOS</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Nuevo documento</td>
+                  <td><code>Ctrl+N</code></td>
+                  <td><code>⌘N</code></td>
+                </tr>
+                <tr>
+                  <td>Abrir</td>
+                  <td><code>Ctrl+O</code></td>
+                  <td><code>⌘O</code></td>
+                </tr>
+                <tr>
+                  <td>Guardar</td>
+                  <td><code>Ctrl+S</code></td>
+                  <td><code>⌘S</code></td>
+                </tr>
+                <tr>
+                  <td>Guardar como</td>
+                  <td><code>Ctrl+Shift+S</code></td>
+                  <td><code>⌘⇧S</code></td>
+                </tr>
+                <tr>
+                  <td>Salir</td>
+                  <td><code>Ctrl+Q</code></td>
+                  <td><code>⌘Q</code></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2 class="section-title">Formatos soportados</h2>
+          <ul class="chip-list">
+            <li>OpenAPI 3.0</li>
+            <li>OpenAPI 3.1</li>
+            <li>Swagger 2.0</li>
+            <li>.yaml · .yml</li>
+            <li>.json</li>
+            <li>Exportación HTML</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ══════════════════ CAPTURAS ══════════════════ -->
+      <section class="view" data-route="/capturas">
+        <div class="container">
+          <h1 class="page-title">Capturas</h1>
+          <p class="page-lead">
+            Capturas reales de la aplicación editando una especificación de ejemplo («Biblioteca API») con varios
+            endpoints, esquemas y un servidor local. Haz clic para ampliar.
+          </p>
+
+          <div class="gallery" id="gallery">
+            <figure class="shot">
+              <button
+                class="shot-btn"
+                data-full="assets/screenshots/01-editor.png"
+                data-caption="La especificación en YAML a la izquierda y la documentación generada por Swagger UI a la derecha.">
+                <img
+                  src="assets/screenshots/01-editor.png"
+                  alt="Editor con el YAML de la especificación y la vista previa de Swagger UI"
+                  loading="lazy" />
+              </button>
+              <figcaption>
+                <strong>Editor y vista previa</strong> — el documento es válido y está marcado como favorito.
+              </figcaption>
+            </figure>
+
+            <figure class="shot">
+              <button
+                class="shot-btn"
+                data-full="assets/screenshots/02-probar-endpoint.png"
+                data-caption="Try it out: la petición GET /libros pasa por el proxy local y la respuesta aparece en Swagger UI.">
+                <img
+                  src="assets/screenshots/02-probar-endpoint.png"
+                  alt="Respuesta 200 de un endpoint probado con Try it out"
+                  loading="lazy" />
+              </button>
+              <figcaption>
+                <strong>Probar un endpoint</strong> — respuesta real de la API local en Swagger UI.
+              </figcaption>
+            </figure>
+
+            <figure class="shot">
+              <button
+                class="shot-btn"
+                data-full="assets/screenshots/03-validacion.png"
+                data-caption="Un error de indentación en el YAML se resalta en su línea y se describe en la barra de estado.">
+                <img
+                  src="assets/screenshots/03-validacion.png"
+                  alt="Línea con un error de indentación resaltada en rojo en el editor"
+                  loading="lazy" />
+              </button>
+              <figcaption><strong>Validación</strong> — la línea con el error se marca al momento.</figcaption>
+            </figure>
+
+            <figure class="shot">
+              <button
+                class="shot-btn"
+                data-full="assets/screenshots/04-json.png"
+                data-caption="La misma especificación convertida a JSON con el botón «A JSON».">
+                <img
+                  src="assets/screenshots/04-json.png"
+                  alt="La especificación convertida a JSON en el editor"
+                  loading="lazy" />
+              </button>
+              <figcaption><strong>Conversión a JSON</strong> — y de vuelta a YAML con otro clic.</figcaption>
+            </figure>
+
+            <figure class="shot">
+              <button
+                class="shot-btn"
+                data-full="assets/screenshots/05-autocompletado.png"
+                data-caption="El autocompletado sugiere palabras que ya aparecen en el documento.">
+                <img
+                  src="assets/screenshots/05-autocompletado.png"
+                  alt="Menú de autocompletado del editor con sugerencias"
+                  loading="lazy" />
+              </button>
+              <figcaption>
+                <strong>Autocompletado</strong> — sugerencias con las palabras del propio documento.
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════ DESCARGAS ══════════════════ -->
+      <section class="view" data-route="/descargas">
+        <div class="container">
+          <h1 class="page-title">Descargas</h1>
+          <p class="page-lead">
+            Última versión: <strong id="releaseTag">v1.0.0</strong>
+            <span id="releaseDate" class="muted"></span>
+          </p>
+
+          <div class="download-grid" id="downloadGrid">
+            <article class="download-card" data-os="windows">
+              <span class="os-icon" aria-hidden="true">🪟</span>
+              <h3>Windows</h3>
+              <p class="os-detail">Instalador <code>.exe</code> · 64 bits</p>
+              <a
+                class="btn btn-primary"
+                data-dl="windows"
+                href="https://github.com/cmurestudillos/openapi-swagger/releases/latest"
+                >Descargar</a
+              >
+              <p class="dl-size" data-size="windows">~122 MB</p>
+            </article>
+
+            <article class="download-card" data-os="mac">
+              <span class="os-icon" aria-hidden="true">🍎</span>
+              <h3>macOS</h3>
+              <p class="os-detail">Imagen <code>.dmg</code> · Apple Silicon</p>
+              <a
+                class="btn btn-primary"
+                data-dl="mac"
+                href="https://github.com/cmurestudillos/openapi-swagger/releases/latest"
+                >Descargar</a
+              >
+              <p class="dl-size" data-size="mac">~125 MB</p>
+            </article>
+
+            <article class="download-card" data-os="linux">
+              <span class="os-icon" aria-hidden="true">🐧</span>
+              <h3>Linux</h3>
+              <p class="os-detail">Ejecutable <code>.AppImage</code> · 64 bits</p>
+              <a
+                class="btn btn-primary"
+                data-dl="linux"
+                href="https://github.com/cmurestudillos/openapi-swagger/releases/latest"
+                >Descargar</a
+              >
+              <p class="dl-size" data-size="linux">Desde GitHub Releases</p>
+            </article>
+          </div>
+
+          <p class="muted small">
+            ¿Prefieres ver todos los archivos?
+            <a href="https://github.com/cmurestudillos/openapi-swagger/releases" rel="noopener"
+              >Todas las versiones en GitHub</a
+            >.
+          </p>
+
+          <h2 class="section-title">Notas de instalación</h2>
+          <div class="note-grid">
+            <div class="note">
+              <h3>🪟 Windows</h3>
+              <p>
+                SmartScreen puede avisar de que el editor es desconocido porque el instalador no está firmado. Pulsa
+                <em>Más información → Ejecutar de todas formas</em>.
+              </p>
+            </div>
+            <div class="note">
+              <h3>🍎 macOS</h3>
+              <p>
+                Si Gatekeeper bloquea la app, ábrela con clic derecho → <em>Abrir</em>, o ejecuta
+                <code>xattr -cr "/Applications/Swagger Editor.app"</code>.
+              </p>
+            </div>
+            <div class="note">
+              <h3>🐧 Linux</h3>
+              <p>
+                Dale permisos de ejecución al AppImage:
+                <code>chmod +x Swagger-Editor-*.AppImage</code> y lánzalo con doble clic.
+              </p>
+            </div>
+          </div>
+
+          <h2 class="section-title">Compilar desde el código</h2>
+          <pre class="code-block"><code>git clone https://github.com/cmurestudillos/openapi-swagger.git
+cd openapi-swagger
+pnpm install
+
+pnpm start           # ejecutar en desarrollo
+pnpm package:win     # generar instalador de Windows
+pnpm package:mac     # generar imagen de macOS
+pnpm package:linux   # generar AppImage</code></pre>
+          <p class="muted small">
+            Requisitos: Node.js 22.12+ y pnpm 11+. Los instaladores se generan en <code>release/</code>.
+          </p>
+        </div>
+      </section>
+
+      <!-- ══════════════════ DOCUMENTACIÓN ══════════════════ -->
+      <section class="view" data-route="/documentacion">
+        <div class="container docs-layout">
+          <article class="docs-body">
+            <h1 class="page-title">Documentación</h1>
+
+            <h2 id="uso">Guía de uso</h2>
+            <h3>1. Abrir o crear un documento</h3>
+            <p>
+              <strong>Archivo → Abrir</strong> acepta <code>.yaml</code>, <code>.yml</code> y <code>.json</code>. El
+              botón <strong>Nuevo</strong> carga una plantilla OpenAPI 3.0 con un endpoint de ejemplo. La cabecera
+              muestra el nombre del archivo; pasa el ratón por encima para ver la ruta completa.
+            </p>
+
+            <h3>2. Editar con vista previa</h3>
+            <p>
+              Al dejar de escribir, la documentación de la derecha se regenera con Swagger&nbsp;UI. Al abrir un archivo,
+              el editor detecta si es JSON o YAML y ajusta el resaltado.
+            </p>
+
+            <h3>3. Validar</h3>
+            <p>
+              Dos segundos después de cada cambio se comprueba el documento: si hay un error de sintaxis, su línea se
+              marca en rojo y la barra de estado muestra el motivo. El botón <strong>Validar</strong> (o
+              <em>OpenAPI → Validar</em>) hace la misma comprobación y muestra el error en un diálogo.
+            </p>
+
+            <h3>4. Probar los endpoints</h3>
+            <p>
+              Despliega una operación en la vista previa, pulsa <em>Try it out</em> y luego <em>Execute</em>. La
+              petición se envía a la URL de <code>servers</code> a través de un proxy local que solo atiende a la propia
+              app, de modo que funciona aunque la API no devuelva cabeceras CORS.
+            </p>
+
+            <h3>5. Convertir, guardar y exportar</h3>
+            <p>
+              <strong>A JSON</strong> y <strong>A YAML</strong> convierten el documento.
+              <strong>Guardar</strong> escribe el archivo abierto (o pide un nombre si es nuevo) y
+              <strong>Exportar</strong> genera un <code>.yaml</code>, un <code>.json</code> o una página
+              <code>.html</code> con la documentación, sin cambiar el archivo en el que estás trabajando.
+            </p>
+
+            <h3>6. Favoritos, recientes y autoguardado</h3>
+            <p>
+              La estrella ★ añade el archivo abierto a <em>Archivo → Favoritos</em>, y
+              <em>Archivo → Archivos recientes</em> guarda los 10 últimos. Cada 10 minutos se guarda el archivo abierto;
+              si el documento es nuevo, se guarda una copia temporal que la app ofrece recuperar al arrancar.
+            </p>
+
+            <h2 id="limitaciones">Limitaciones conocidas</h2>
+            <ul class="roadmap">
+              <li>
+                <span class="tag">Validación</span> Es básica: comprueba la sintaxis y que existan
+                <code>openapi</code>/<code>swagger</code>, <code>info</code> y <code>paths</code>, pero no valida los
+                esquemas ni resuelve las <code>$ref</code>.
+              </li>
+              <li>
+                <span class="tag">HTML</span> La página exportada carga Swagger&nbsp;UI desde cdnjs, así que necesita
+                conexión para verse.
+              </li>
+              <li>
+                <span class="tag">Guardar como</span> Guarda el contenido tal cual: para obtener un <code>.json</code> a
+                partir de YAML, convierte antes con <strong>A JSON</strong> o usa <strong>Exportar</strong>.
+              </li>
+              <li>
+                <span class="tag">Try it out</span> La <em>Request URL</em> que muestra Swagger UI es la del proxy
+                local, no la de tu API.
+              </li>
+            </ul>
+
+            <h2 id="arquitectura">Arquitectura</h2>
+            <pre
+              class="code-block"><code>├── main.js                  # proceso principal: ventana, menús, diálogos, IPC y configuración
+├── preload.js               # puente IPC seguro (contextIsolation activo)
+├── renderer.js              # interfaz: editor ACE, Swagger UI, validación y autoguardado
+├── proxy-server.js          # proxy CORS local (Express, solo 127.0.0.1 y con token)
+├── swagger-parser-loader.js # validación básica de la especificación
+├── index.html · style.css   # estructura y estilos de la ventana
+└── assets/                  # iconos de la app</code></pre>
+            <p>
+              Construida con <strong>Electron</strong>, <strong>ACE</strong> como editor,
+              <strong>Swagger UI</strong> para la vista previa, <strong>js-yaml</strong> para las conversiones y
+              <strong>Express</strong> para el proxy. Sin frameworks de interfaz: HTML, CSS y JavaScript.
+            </p>
+
+            <h2 id="roadmap">Roadmap</h2>
+            <ul class="roadmap">
+              <li>
+                <span class="tag">Validación</span> Validación completa (esquemas y <code>$ref</code>) con
+                swagger-parser
+              </li>
+              <li><span class="tag">Pestañas</span> Varios documentos abiertos a la vez</li>
+              <li><span class="tag">Snippets</span> Fragmentos para los componentes OpenAPI más habituales</li>
+              <li><span class="tag">Importar</span> Colecciones de Postman e Insomnia</li>
+              <li><span class="tag">Diff</span> Comparación visual entre versiones de una especificación</li>
+              <li><span class="tag">Tema</span> Tema claro/oscuro para la aplicación</li>
+            </ul>
+
+            <h2 id="contribuir">Contribuir</h2>
+            <p>
+              Los issues y pull requests son bienvenidos. Abre un
+              <a href="https://github.com/cmurestudillos/openapi-swagger/issues" rel="noopener">issue</a>
+              describiendo el bug (si puedes, adjunta una especificación mínima que lo reproduzca) o la funcionalidad
+              que echas de menos.
+            </p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <div>
+          <p class="brand-sm">📐 OpenAPI Swagger Editor</p>
+          <p class="muted small">Licencia MIT · Hecho por Carlos Mur</p>
+        </div>
+        <nav aria-label="Enlaces del pie">
+          <a href="https://github.com/cmurestudillos/openapi-swagger" rel="noopener">Repositorio</a>
+          <a href="https://github.com/cmurestudillos/openapi-swagger/releases" rel="noopener">Versiones</a>
+          <a href="https://github.com/cmurestudillos/openapi-swagger/issues" rel="noopener">Reportar un bug</a>
+          <a href="https://github.com/cmurestudillos" rel="noopener">@cmurestudillos</a>
+        </nav>
+      </div>
+    </footer>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox" hidden>
+      <button class="lightbox-close" id="lightboxClose" aria-label="Cerrar">✕</button>
+      <figure>
+        <img id="lightboxImg" src="" alt="" />
+        <figcaption id="lightboxCaption"></figcaption>
+      </figure>
+    </div>
+
+    <script src="assets/js/app.js"></script>
+  </body>
+</html>
