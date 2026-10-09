@@ -1,7 +1,6 @@
 const express = require('express');
 const http = require('http');
 const https = require('https');
-const url = require('url');
 const { networkInterfaces } = require('os');
 
 // Crear servidor Express
@@ -87,7 +86,8 @@ app.use('/proxy', (req, res) => {
 });
 
 // Manejo de errores global
-app.use((err, req, res, next) => {
+// Express identifica el manejador de errores por sus 4 parámetros
+app.use((err, req, res, _next) => {
   console.error('Error en el servidor proxy:', err);
   res.status(500).send('Error interno del servidor proxy');
 });

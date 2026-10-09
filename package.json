@@ -21,6 +21,7 @@
     "eslint-config-prettier": "^10.1.1",
     "eslint-plugin-jsdoc": "^50.6.8",
     "eslint-plugin-prettier": "^5.2.3",
+    "globals": "^17.13.0",
     "prettier": "^3.5.3"
   },
   "dependencies": {
@@ -52,6 +53,9 @@
     "tree-sitter": "0.0.0-ignored"
   },
   "pnpm": {
-    "onlyBuiltDependencies": ["electron", "electron-builder"]
+    "onlyBuiltDependencies": [
+      "electron",
+      "electron-builder"
+    ]
   }
 }

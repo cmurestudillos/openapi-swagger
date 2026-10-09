@@ -79,7 +79,6 @@ function highlightError(error) {
     try {
       // Como aproximación, podemos buscar la cadena en el documento
       const content = editor.getValue();
-      const pathStr = error.path.join('.');
       const searchStr = error.path[error.path.length - 1];
 
       // Buscar líneas que contengan la cadena
@@ -103,14 +102,14 @@ function highlightLine(lineNumber) {
   const markerId = session.addMarker(new Range(lineNumber, 0, lineNumber, Infinity), 'error-line', 'fullLine', false);
   errorMarkerIds.push(markerId);
   session.setAnnotations([{ row: lineNumber, type: 'error', text: 'Error en la especificación OpenAPI' }]);
-} // Variables para el autoguardado
-let auto;
+}
+
+// Estado del documento
 let currentFilePath = null;
 let errorMarkerIds = [];
 
 // Elementos del DOM
 const editorElement = document.getElementById('editor');
-const swaggerUIElement = document.getElementById('swagger-ui');
 const statusElement = document.getElementById('status');
 const currentFileElement = document.getElementById('currentFile');
 const btnNew = document.getElementById('btnNew');
@@ -431,11 +430,11 @@ function exportSwagger() {
     const content = editor.getValue();
     const contentType = detectContentType(content);
 
-    let spec;
+    // Comprobar que el contenido se puede parsear antes de abrir el diálogo
     if (contentType === 'yaml') {
-      spec = jsyaml.load(content);
+      jsyaml.load(content);
     } else {
-      spec = JSON.parse(content);
+      JSON.parse(content);
     }
 
     // Crear opciones para el diálogo de guardado

@@ -10,9 +10,6 @@ let mainWindow;
 // Ruta del archivo actualmente abierto
 let currentFilePath = null;
 
-// Puerto del servidor proxy
-let proxyPort = 9000;
-
 // Historial de archivos recientes (máximo 10)
 let recentFiles = [];
 const MAX_RECENT_FILES = 10;
@@ -108,7 +105,9 @@ function isInFavorites(filePath) {
 
 // Actualizar el menú de archivos recientes
 function updateRecentFilesMenu() {
-  if (!mainWindow) return;
+  if (!mainWindow) {
+    return;
+  }
 
   const template = buildMenuTemplate();
   const menu = Menu.buildFromTemplate(template);
@@ -437,7 +436,7 @@ ipcMain.on('auto-save-temp', (event, content) => {
 });
 
 // Manejar el toggle de favorito
-ipcMain.on('toggle-favorite', event => {
+ipcMain.on('toggle-favorite', () => {
   if (currentFilePath) {
     if (isInFavorites(currentFilePath)) {
       removeFromFavorites(currentFilePath);
@@ -470,7 +469,6 @@ app.whenReady().then(async () => {
   try {
     // Iniciar el servidor proxy
     const { port, addresses } = await startProxyServer();
-    proxyPort = port;
 
     // Enviar el puerto del proxy al proceso de renderizado
     createWindow();
@@ -489,11 +487,15 @@ app.whenReady().then(async () => {
   app.on('activate', function () {
     // En macOS es común volver a crear una ventana cuando
     // se hace clic en el icono del dock y no hay otras ventanas abiertas.
-    if (BrowserWindow.getAllWindows().length === 0) createWindow();
+    if (BrowserWindow.getAllWindows().length === 0) {
+      createWindow();
+    }
   });
 });
 
 // Salir cuando todas las ventanas estén cerradas, excepto en macOS
 app.on('window-all-closed', function () {
-  if (process.platform !== 'darwin') app.quit();
+  if (process.platform !== 'darwin') {
+    app.quit();
+  }
 });
