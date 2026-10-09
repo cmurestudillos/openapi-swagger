@@ -10,6 +10,9 @@ let mainWindow;
 // Ruta del archivo actualmente abierto
 let currentFilePath = null;
 
+// Puerto, direcciones y token del proxy CORS (se envían al renderer en cada carga)
+let proxyInfo = null;
+
 // Historial de archivos recientes (máximo 10)
 let recentFiles = [];
 const MAX_RECENT_FILES = 10;
@@ -105,10 +108,6 @@ function isInFavorites(filePath) {
 
 // Actualizar el menú de archivos recientes
 function updateRecentFilesMenu() {
-  if (!mainWindow) {
-    return;
-  }
-
   const template = buildMenuTemplate();
   const menu = Menu.buildFromTemplate(template);
   Menu.setApplicationMenu(menu);
@@ -120,7 +119,7 @@ function buildMenuTemplate() {
   const recentFilesSubmenu = recentFiles.map((file, index) => {
     return {
       label: `${index + 1}: ${path.basename(file)}`,
-      click: () => openSpecificFile(file),
+      click: () => withWindow(() => openSpecificFile(file)),
     };
   });
 
@@ -149,7 +148,7 @@ function buildMenuTemplate() {
   const favoritesSubmenu = favoriteFiles.map(file => {
     return {
       label: path.basename(file),
-      click: () => openSpecificFile(file),
+      click: () => withWindow(() => openSpecificFile(file)),
     };
   });
 
@@ -168,15 +167,12 @@ function buildMenuTemplate() {
         {
           label: 'Nuevo',
           accelerator: 'CmdOrCtrl+N',
-          click: () => {
-            mainWindow.webContents.send('new-file');
-            currentFilePath = null;
-          },
+          click: () => withWindow(() => mainWindow.webContents.send('new-file')),
         },
         {
           label: 'Abrir',
           accelerator: 'CmdOrCtrl+O',
-          click: () => openFile(),
+          click: () => withWindow(openFile),
         },
         {
           label: 'Archivos recientes',
@@ -190,18 +186,19 @@ function buildMenuTemplate() {
         {
           label: 'Guardar',
           accelerator: 'CmdOrCtrl+S',
-          click: () => {
-            if (currentFilePath) {
-              mainWindow.webContents.send('save-file', currentFilePath);
-            } else {
-              saveFileAs();
-            }
-          },
+          click: () =>
+            withWindow(() => {
+              if (currentFilePath) {
+                mainWindow.webContents.send('save-file', currentFilePath);
+              } else {
+                saveFileAs();
+              }
+            }),
         },
         {
           label: 'Guardar como',
           accelerator: 'CmdOrCtrl+Shift+S',
-          click: () => saveFileAs(),
+          click: () => withWindow(saveFileAs),
         },
         { type: 'separator' },
         {
@@ -241,21 +238,15 @@ function buildMenuTemplate() {
       submenu: [
         {
           label: 'Validar',
-          click: () => {
-            mainWindow.webContents.send('validate-openapi');
-          },
+          click: () => withWindow(() => mainWindow.webContents.send('validate-openapi')),
         },
         {
           label: 'Convertir JSON a YAML',
-          click: () => {
-            mainWindow.webContents.send('convert-to-yaml');
-          },
+          click: () => withWindow(() => mainWindow.webContents.send('convert-to-yaml')),
         },
         {
           label: 'Convertir YAML a JSON',
-          click: () => {
-            mainWindow.webContents.send('convert-to-json');
-          },
+          click: () => withWindow(() => mainWindow.webContents.send('convert-to-json')),
         },
       ],
     },
@@ -284,6 +275,16 @@ function buildMenuTemplate() {
       ],
     },
   ];
+}
+
+// En macOS la app sigue abierta sin ventanas: las acciones del menú vuelven a crearla
+function withWindow(fn) {
+  if (mainWindow) {
+    fn();
+    return;
+  }
+  createWindow();
+  mainWindow.webContents.once('did-finish-load', fn);
 }
 
 function createWindow() {
@@ -318,6 +319,21 @@ function createWindow() {
         'Access-Control-Allow-Headers': ['Content-Type, Authorization'],
       },
     });
+  });
+
+  // Al cargar: enviar los datos del proxy y comprobar si hay autoguardados temporales
+  mainWindow.webContents.on('did-finish-load', () => {
+    if (proxyInfo) {
+      mainWindow.webContents.send('proxy-info', proxyInfo);
+    }
+    checkForTempSave();
+  });
+
+  // La ventana se puede cerrar sin salir de la app (macOS): olvidar la referencia y el documento
+  mainWindow.on('closed', () => {
+    mainWindow = null;
+    currentFilePath = null;
+    updateRecentFilesMenu();
   });
 
   // Cargar el archivo HTML principal
@@ -494,16 +510,8 @@ app.whenReady().then(async () => {
   try {
     // Iniciar el servidor proxy
     const { port, addresses, token } = await startProxyServer();
-
-    // Enviar el puerto del proxy al proceso de renderizado
+    proxyInfo = { port, addresses, token };
     createWindow();
-
-    // Verificar si hay autoguardados temporales
-    mainWindow.webContents.on('did-finish-load', () => {
-      // Enviar el puerto y las direcciones disponibles
-      mainWindow.webContents.send('proxy-info', { port, addresses, token });
-      checkForTempSave();
-    });
   } catch (error) {
     console.error('Error al iniciar el servidor proxy:', error);
     createWindow();
