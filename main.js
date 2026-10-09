@@ -451,6 +451,15 @@ ipcMain.on('auto-save-temp', (event, content) => {
   }
 });
 
+// Borrar el autoguardado temporal una vez que el usuario ha decidido si recuperarlo
+ipcMain.on('discard-temp-save', () => {
+  fs.rm(tempSavePath, { force: true }, err => {
+    if (err) {
+      console.error('Error al borrar el autoguardado temporal:', err);
+    }
+  });
+});
+
 // Manejar el toggle de favorito
 ipcMain.on('toggle-favorite', () => {
   if (currentFilePath) {

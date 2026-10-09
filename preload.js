@@ -34,6 +34,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   // Autoguardado
   autoSaveTemp: content => ipcRenderer.send('auto-save-temp', content),
   onTempSaveFound: callback => on('temp-save-found', (_, data) => callback(data)),
+  discardTempSave: () => ipcRenderer.send('discard-temp-save'),
 
   // Favoritos
   onFavoriteStatus: callback => on('favorite-status', (_, status) => callback(status)),

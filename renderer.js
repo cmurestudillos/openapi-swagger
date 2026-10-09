@@ -478,6 +478,9 @@ window.electronAPI.onTempSaveFound(data => {
       updatePreview();
       setStatus('Autoguardado recuperado');
     }
+
+    // Recuperado o no, no volver a preguntar en el siguiente arranque
+    window.electronAPI.discardTempSave();
   }
 });
 
