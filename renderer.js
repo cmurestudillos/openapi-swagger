@@ -180,7 +180,9 @@ let liveValidationDelay = 2000; // 2 segundos
 
 // Variable para almacenar el puerto del proxy
 let proxyPort = 9000;
-let proxyAddresses = ['localhost'];
+let proxyAddresses = ['127.0.0.1'];
+// Token que exige el proxy (lo envía main en proxy-info)
+let proxyToken = '';
 
 // Escuchar al evento del puerto del proxy
 window.electronAPI.onProxyPort(port => {
@@ -193,7 +195,8 @@ window.electronAPI.onProxyPort(port => {
 // Escuchar al evento con información completa del proxy
 window.electronAPI.onProxyInfo(info => {
   proxyPort = info.port;
-  proxyAddresses = info.addresses || ['localhost'];
+  proxyAddresses = info.addresses || ['127.0.0.1'];
+  proxyToken = info.token || '';
   console.log(`Servidor proxy disponible en puerto ${proxyPort}`);
   console.log(`Direcciones disponibles: ${proxyAddresses.join(', ')}`);
   // Actualizar la previsualización con el nuevo puerto
@@ -204,7 +207,7 @@ window.electronAPI.onProxyInfo(info => {
 function routeThroughProxy(url) {
   // Usar la primera dirección disponible (generalmente localhost)
   const proxyAddress = proxyAddresses[0];
-  return `http://${proxyAddress}:${proxyPort}/proxy?url=${encodeURIComponent(url)}`;
+  return `http://${proxyAddress}:${proxyPort}/proxy?token=${proxyToken}&url=${encodeURIComponent(url)}`;
 }
 
 // Inicializar Swagger UI

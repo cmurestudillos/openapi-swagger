@@ -493,7 +493,7 @@ loadConfig();
 app.whenReady().then(async () => {
   try {
     // Iniciar el servidor proxy
-    const { port, addresses } = await startProxyServer();
+    const { port, addresses, token } = await startProxyServer();
 
     // Enviar el puerto del proxy al proceso de renderizado
     createWindow();
@@ -501,7 +501,7 @@ app.whenReady().then(async () => {
     // Verificar si hay autoguardados temporales
     mainWindow.webContents.on('did-finish-load', () => {
       // Enviar el puerto y las direcciones disponibles
-      mainWindow.webContents.send('proxy-info', { port, addresses });
+      mainWindow.webContents.send('proxy-info', { port, addresses, token });
       checkForTempSave();
     });
   } catch (error) {
