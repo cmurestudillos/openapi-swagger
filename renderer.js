@@ -54,15 +54,22 @@ function setEditorValidState(isValid, error = null) {
     statusElement.textContent = 'Validación en tiempo real: ✓ Válido';
     statusElement.style.color = 'green';
   } else {
-    // Si no es válido, mostrar el error
-    statusElement.textContent = `Validación en tiempo real: ✗ Error - ${error.message}`;
+    // Si no es válido, mostrar el error (js-yaml añade un fragmento del código en varias líneas: solo la primera)
+    const firstLine = error.message.split('\n')[0];
+    statusElement.textContent = `Validación en tiempo real: ✗ Error - ${firstLine}`;
     statusElement.style.color = 'red';
   }
 }
 
 // Función para resaltar errores de sintaxis
 function highlightSyntaxError(error) {
-  // Intentar extraer información de línea y columna del mensaje de error
+  // js-yaml indica la posición en error.mark (línea 0-indexed, igual que ACE)
+  if (error.mark && typeof error.mark.line === 'number') {
+    highlightLine(error.mark.line);
+    return;
+  }
+
+  // JSON.parse: intentar extraer información de línea y columna del mensaje de error
   const lineMatch = error.message.match(/line (\d+)/i);
   if (lineMatch && lineMatch[1]) {
     const lineNumber = parseInt(lineMatch[1]) - 1; // Las líneas en ACE son 0-indexed
