@@ -99,9 +99,9 @@ pnpm package:linux   # AppImage
 Los instaladores de Windows (`.exe`), macOS (`.dmg`, Apple Silicon) y Linux (`.AppImage`) los genera GitHub Actions
 (`.github/workflows/release.yml`) al subir un tag `vX.Y.Z`:
 
-1. Sube la versión en `package.json` y haz commit (el workflow comprueba que el tag coincide).
-2. Crea el tag anotado: `git tag -a v1.0.1 -m "v1.0.1"`.
-3. Sube la rama y el tag: `git push origin develop` y `git push origin v1.0.1`.
+1. Sube la versión en `package.json` en un PR hacia `master` y fusiónalo (el workflow comprueba que el tag coincide).
+2. En `master` actualizado, crea el tag anotado: `git tag -a vX.Y.Z -m "vX.Y.Z"`.
+3. Sube el tag: `git push origin vX.Y.Z`.
 4. En _Actions_ aparece **Release vX.Y.Z** con 4 jobs (borrador + Windows + macOS + Linux).
 5. Revisa el borrador en _Releases_ (`Swagger-Editor-Setup-X.Y.Z.exe`, `Swagger-Editor-X.Y.Z-arm64.dmg`,
    `Swagger-Editor-X.Y.Z.AppImage`) y pulsa **Publish release**. La web enlaza sola a la nueva versión.
