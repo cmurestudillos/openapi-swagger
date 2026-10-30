@@ -16,7 +16,8 @@ overrides:
   'undici@<6.29.1': '^6.29.1'
   js-yaml: '^4.3.2'
   axios: '^1.20.0'
-  follow-redirects: '^1.16.1'
+  # follow-redirects <1.16.1: CVE-2026-111755, CVE-2026-111756 (vía swagger-client > apidom-reference > axios)
+  'follow-redirects@<1.16.2': '^1.16.2'
   brace-expansion: '^5.0.12'
   'body-parser@<2.4.0': '^2.4.0'
   'fast-uri@<3.1.9': '^3.1.9'
