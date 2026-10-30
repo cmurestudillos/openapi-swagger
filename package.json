@@ -16,20 +16,20 @@
   "license": "MIT",
   "devDependencies": {
     "electron": "^42.11.18",
-    "electron-builder": "^26.15.7",
+    "electron-builder": "^26.18.0",
     "eslint": "^9.22.0",
     "eslint-config-prettier": "^10.1.1",
     "eslint-plugin-jsdoc": "^50.6.8",
-    "eslint-plugin-prettier": "^5.2.3",
+    "eslint-plugin-prettier": "^5.5.7",
     "globals": "^17.13.0",
-    "prettier": "^3.5.3"
+    "prettier": "^3.9.10"
   },
   "dependencies": {
     "@apidevtools/swagger-parser": "^12.1.0",
-    "ace-builds": "^1.44.0",
-    "express": "^5.2.1",
+    "ace-builds": "^1.45.2",
+    "express": "^5.3.0",
     "js-yaml": "^4.3.2",
-    "swagger-ui": "^5.32.6"
+    "swagger-ui": "^5.34.0"
   },
   "build": {
     "appId": "com.cmurestudillos.swagger-editor",
@@ -68,14 +68,5 @@
       "category": "Development",
       "target": "AppImage"
     }
-  },
-  "overrides": {
-    "tree-sitter": "0.0.0-ignored"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "electron",
-      "electron-builder"
-    ]
   }
 }
