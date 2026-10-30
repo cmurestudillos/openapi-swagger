@@ -9,16 +9,16 @@ allowBuilds:
 
 overrides:
   tmp: '~0.2.6'
-  qs: '^6.17.1'
-  dompurify: '^3.4.17'
+  'qs@<6.17.1': '^6.17.1'
+  'dompurify@<3.4.17': '^3.4.17'
   form-data: '^4.0.6'
   tar: '^7.5.18'
-  undici: '^6.29.1'
+  'undici@<6.29.1': '^6.29.1'
   js-yaml: '^4.3.2'
   axios: '^1.20.0'
   brace-expansion: '^5.0.12'
-  body-parser: '^2.4.0'
-  fast-uri: '^3.1.9'
+  'body-parser@<2.4.0': '^2.4.0'
+  'fast-uri@<3.1.9': '^3.1.9'
   immutable: '^4.3.9'
   http-cache-semantics: '^4.2.1'
   proxy-addr: '^2.0.8'
@@ -27,4 +27,8 @@ overrides:
   # sprintf-js <=1.1.3 (GHSA-hp3w-g68c-fv3c) no tiene versión parcheada: se elimina del árbol
   global-agent: '^4.1.3'
   'remarkable>argparse': '^2.0.1'
-  # deepmerge <=4.3.1 (GHSA-gcqx-w48m-w2h4, vía swagger-ui > swagger-client) aún no tiene versión parcheada
+
+auditConfig:
+  ignoreGhsas:
+    # deepmerge <=4.3.1 (vía swagger-ui > swagger-client) no tiene versión parcheada; riesgo bajo aceptado
+    - GHSA-gcqx-w48m-w2h4
