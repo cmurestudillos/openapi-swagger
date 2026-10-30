@@ -188,7 +188,7 @@
       const data = await res.json();
 
       // La primera release se publicó con el tag v1.0.0.0: se muestra como semver (v1.0.0)
-      const tag = (data.tag_name || 'v1.0.0').replace(/^(v?\d+\.\d+\.\d+)\.0$/, '$1');
+      const tag = (data.tag_name || 'v1.0.2').replace(/^(v?\d+\.\d+\.\d+)\.0$/, '$1');
       document.getElementById('releaseTag').textContent = tag;
       document.getElementById('heroVersion').textContent = tag;
 
