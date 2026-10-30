@@ -68,14 +68,5 @@
       "category": "Development",
       "target": "AppImage"
     }
-  },
-  "overrides": {
-    "tree-sitter": "0.0.0-ignored"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "electron",
-      "electron-builder"
-    ]
   }
 }
