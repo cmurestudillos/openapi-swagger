@@ -30,8 +30,13 @@ overrides:
   # sprintf-js <=1.1.3 (GHSA-hp3w-g68c-fv3c) no tiene versión parcheada: se elimina del árbol
   global-agent: '^4.1.3'
   'remarkable>argparse': '^2.0.1'
-  # minimatch <11.0.1: GHSA-g3hv-75wg-m249. Solo se fuerzan 9.x/10.x (misma API que 11);
-  # 3.x y 5.x (eslint, electron-builder) no tienen parche y cambiar de major las rompería.
+  # minimatch <11.0.1: GHSA-g3hv-75wg-m249 (parche solo en 11.x). Se fuerzan a 11.0.4 las
+  # versiones >=9.0.0 <11.0.1 (9.x, 10.x y 11.0.0), que comparten API con la 11. Quitar cuando
+  # swagger-client, app-builder-lib y @electron/universal pidan ^11.
+  # Pendiente: 3.x y 5.x (vía eslint, glob@7, @electron/asar y filelist) siguen vulnerables. No
+  # tienen parche en su rama y pasar a 11 las rompería (esperan el export CJS por defecto). Solo
+  # se usan en desarrollo/build, así que `pnpm audit` las sigue mostrando. No se añade a
+  # ignoreGhsas para no ocultar una posible aparición futura en una ruta de producción.
   'minimatch@>=9.0.0 <11.0.1': '^11.0.4'
 
 auditConfig:
